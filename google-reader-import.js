@@ -6,8 +6,8 @@ function createStoryEntry(jsonItem) {
   var post = document.createElement("div");
   post.className = "well clearfix post";
   post.id = "post" + postId;
-  post.data-identifier = postId;
-  post.data-relative = relativeUrl;
+  post.setAttribute("data-identifier", postId);
+  post.setAttribute("data-relative", relativeUrl);
   post.innerHTML = '<span class="label label-transparent pull-right" data-time="' + jsonItem.published + '"></span>' + 
       '<h3><a href="' + relativeUrl + '" target="_blank">' + jsonItem.title + '</a></h3>' + 
       '<div class="clearfix">' + 
