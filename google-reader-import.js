@@ -1,21 +1,27 @@
 function createStoryEntry(jsonItem) {
-  var publishedDate = new Date(jsonItem.published * 1000);
+  var postId = jsonItem.id.substring(jsonItem.id.lastIndexOf("/"));
+  var relativeUrl = (typeof jsonItem.canonical === 'undefined') ? jsonItem.alternate.href : jsonItem.canonical.href;
+  var author = (typeof jsonItem.author === 'undefined') ? '' : '<span class="label label-transparent">by <strong>' + jsonItem.author + '</strong></span>';
   var content = (typeof jsonItem.content === 'undefined') ? jsonItem.summary.content : jsonItem.content.content;
-  var entryMain = document.createElement("div");
-  entryMain.className = "entry-main";
-  entryMain.innerHTML = '<div class="entry-date">' + publishedDate.toDateString() + ' ' + 
-      publishedDate.toTimeString() + '</div><h2 class="entry-title">' + 
-      '<a class="entry-title-link" href="' + jsonItem.alternate.href + '" target="_blank">' + 
-      jsonItem.title + '</a></h2><div class="entry-author">' + 
-      '<span class="entry-source-title-parent">from <a class="entry-source-title" href="' + 
-      jsonItem.origin.htmlUrl + '" target="_blank">' + jsonItem.origin.title + 
-      '</a></span></div><div class="entry-body"><div>' +
-      '<div class="item-body"><div>' + content + '</div></div>' +
+  var post = document.createElement("div");
+  post.className = "well clearfix post";
+  post.id = "post" + postId;
+  post.data-identifier = postId;
+  post.data-relative = relativeUrl;
+  post.innerHTML = '<span class="label label-transparent pull-right" data-time="' + jsonItem.published + '"></span>' + 
+      '<h3><a href="' + relativeUrl + '" target="_blank">' + jsonItem.title + '</a></h3>' + 
+      '<div class="clearfix">' + 
+      '<a href="' + jsonItem.origin.htmlUrl + '" class="label label-feed" data-pjax="">' + jsonItem.origin.title + '</a>' + 
+      author + 
+      '</div>' +
+      '<div class="content clearfix">' +
+      '<div class="content-body">' +
+      content +
       '</div></div>';
-  return entryMain;
+  return post;
 }
 function handleFileSelect() {
-  var storiesContainer = document.getElementById('stories');
+  var storiesContainer = document.getElementById('posts');
 
   var reader = new FileReader();
   reader.onload = function(evt) {
