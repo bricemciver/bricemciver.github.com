@@ -28,7 +28,7 @@ function handleFileSelect() {
 }
 Modernizr.load([
   {
-    test : Modernizr.fileAPI,
+    test : Modernizr.filereader,
     nope : ['https://raw.github.com/Jahdrien/FileReader/master/jquery.FileReader.min.js']
 }]);
 document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
